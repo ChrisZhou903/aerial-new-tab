@@ -1,0 +1,81 @@
+body {
+  overflow: hidden;
+  font-family: -apple-system,
+    "PingFang SC",
+    BlinkMacSystemFont,
+    "Segoe UI",
+    Roboto,
+    "Hiragino Sans GB",
+    "Helvetica Neue",
+    Helvetica,
+    Arial,
+    sans-serif;
+  margin: 0;
+  padding: 0;
+}
+
+/* video */
+.app-hero {
+  height: 100vh;
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  flex: auto;
+}
+
+.no-video .video-container video,
+.touch .video-container video {
+  display: none;
+}
+
+.no-video .video-container .poster,
+.touch .video-container .poster {
+  display: block !important;
+}
+
+.video-container {
+  flex: 0 0 auto;
+}
+
+.video-container .poster img {
+  width: 100%;
+  bottom: 0;
+  position: absolute;
+}
+
+.video-container .filter {
+  z-index: 100;
+  position: absolute;
+  background: rgba(0, 0, 0, 0.4);
+  width: 100%;
+}
+
+.video-container video {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 100%;
+  min-height: 100%;
+  transform: translate(-50%, -50%);
+  background-color: #000;
+}
+
+.video-info {
+  width: 100%;
+  position: absolute;
+  bottom: 5%;
+  left: 0;
+  color: #fff;
+  padding: 0 5%;
+  display: flex;
+  line-height: 2rem;
+}
+
+.video-info .icon {
+  margin-right: 1rem;
+  vertical-align: middle;
+}
+
+.video-location {
+  text-transform: capitalize;
+}
