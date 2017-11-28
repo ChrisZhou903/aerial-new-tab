@@ -2,6 +2,7 @@ import React, { PureComponent } from 'react'
 
 import VideoPlayer from './components/VideoPlayer'
 import VideoLocation from './components/VideoLocation'
+import Settings from './components/Settings'
 import entries from './constants/entries.json'
 
 const videosObj = entries.reduce((obj, v) => ({
@@ -39,6 +40,7 @@ class App extends PureComponent {
           <VideoPlayer video={video} />
           <div className="video-info">
             <VideoLocation videos={videos} video={video} onSelect={this.handleLocationSelect} />
+            <Settings />
           </div>
         </div>
       </div>

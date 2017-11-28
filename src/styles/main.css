@@ -94,17 +94,19 @@ img {
 }
 
 .video-info {
+  width: 100%;
   position: absolute;
   bottom: 10%;
   left: 0;
   color: rgba(255, 255, 255, .8);
   padding: 0 5%;
   display: flex;
+  justify-content: space-between;
   line-height: 3rem;
 }
 
 .video-info .icon {
-  margin-right: 1.5rem;
+  margin-right: .5rem;
   vertical-align: middle;
   opacity: .8;
 }
@@ -113,39 +115,56 @@ img {
   text-transform: capitalize;
 }
 
-.video-location__btn {
+.video-info__btn {
   color: rgba(255, 255, 255, .8) !important;
   background-color: transparent !important;
   border: none !important;
 }
 
-.video-location__btn:hover {
+.video-info__btn:hover {
   color: #fff !important;
 }
 
-.video-location__btn:hover .icon {
+.video-info__btn:hover .icon {
   opacity: 1;
 }
 
-.video-location .dropdown-menu {
-  width: 200px;
+.video-info .dropdown-menu {
+  width: auto;
+  min-width: 200px;
   max-height: 300px;
   overflow: auto;
 }
 
-.video-location .dropdown-header {
+.video-info .dropdown-header {
   font-size: 14px;
   padding: .3rem 1.5rem;
   color: #000;
 }
 
-.video-location .dropdown-menu  li > a {
+.video-info .dropdown-menu > li > a {
   padding: 1rem 1.5rem;
   font-size: 12px;
 }
 
-.video-location .dropdown-menu>.active>a,
-.video-location .dropdown-menu>.active>a:hover,
-.video-location .dropdown-menu>.active>a:focus {
+.video-info__btn .caret {
+  display: none;
+}
+
+.video-info .dropdown-menu>.active>a,
+.video-info .dropdown-menu>.active>a:hover,
+.video-info .dropdown-menu>.active>a:focus {
   background-color: #333;
+}
+
+.app-settings .dropdown-menu {
+  padding: 1rem 0;
+}
+
+.app-settings .dropdown-menu > li > a {
+  padding: 1rem 1.5rem;
+}
+
+.app-settings .icon {
+  width: 18px;
 }

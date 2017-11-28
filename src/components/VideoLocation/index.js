@@ -55,7 +55,7 @@ class VideoLocation extends PureComponent {
           dropup
           title={buttonDom}
           id="video-location__btn"
-          className="video-location__btn"
+          className="video-info__btn video-location__btn"
         >
           {menuItems}
         </DropdownButton>
