@@ -14,6 +14,10 @@ body {
   padding: 0;
 }
 
+img {
+  max-width: 100%;
+}
+
 /* video */
 .app-hero {
   height: 100vh;
@@ -60,10 +64,38 @@ body {
   background-color: #000;
 }
 
-.video-info {
-  width: 100%;
+.video-btn {
+  padding: 0;
   position: absolute;
-  bottom: 5%;
+  background-color: transparent;
+  border: none;
+  cursor: pointer;
+  outline: none;
+  opacity: .6;
+  transition: opacity .25s ease-in-out;
+}
+
+.video-btn:hover {
+  opacity: .8;
+}
+
+.play-btn {
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
+
+.pause-btn {
+  width: 48px;
+  bottom: 10%;
+  left: 50%;
+  transform: translate(-50%, 0);
+  z-index: 9999;
+}
+
+.video-info {
+  position: absolute;
+  bottom: 10%;
   left: 0;
   color: rgba(255, 255, 255, .8);
   padding: 0 5%;
@@ -82,6 +114,9 @@ body {
 }
 
 .video-location__cur {
+  color: rgba(255, 255, 255, .8);
+  background-color: transparent;
+  border: none;
   cursor: pointer;
 }
 
