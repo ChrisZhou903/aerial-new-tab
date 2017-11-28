@@ -14,11 +14,13 @@ const videosObj = entries.reduce((obj, v) => ({
 const videosIds = entries.map(v => v.id)
 
 const randomId = entries[Math.floor(Math.random() * videosIds.length)].id
+const videoId = window.localStorage.getItem('videoId') || randomId
+
 
 class App extends PureComponent {
   state = {
     videos: videosObj,
-    current: randomId,
+    current: videoId,
   }
 
   handleLocationSelect = id => {

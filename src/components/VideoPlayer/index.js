@@ -38,9 +38,12 @@ class VideoPlayer extends PureComponent {
   }
 
   handleCanPlay = () => {
+    const { video } = this.props
+
     this.setState({
       canPlay: true,
     })
+    window.localStorage.setItem('videoId', video.id)
   }
 
   handlePlay = () => {
