@@ -1,7 +1,7 @@
 {
-  "name": "Aerial new tab page",
-  "description": "Override the new tab page with a Aerial video",
-  "version": "1.0",
+  "name": "Aerial New Tab",
+  "description": "Override the new tab page with a beautiful aerial video",
+  "version": "0.1.0",
   "incognito": "split",
   "chrome_url_overrides": {
     "newtab": "index.html"
