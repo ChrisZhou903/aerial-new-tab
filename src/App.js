@@ -41,8 +41,10 @@ class App extends PureComponent {
           <VideoPlayer video={video} />
           <div className="video-info">
             <VideoLocation videos={videos} video={video} onSelect={this.handleLocationSelect} />
-            <Settings />
-            <Info />
+            <div className="video-info__right">
+              <Settings />
+              <Info />
+            </div>
           </div>
         </div>
       </div>

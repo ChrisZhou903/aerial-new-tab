@@ -11,7 +11,7 @@ const overlay = (
 
 const Info = () => (
   <OverlayTrigger trigger="focus" placement="top" overlay={overlay}>
-    <button className="video-info__btn"><img className="icon" src={infoSvg} alt="" /> Info</button>
+    <button className="video-info__btn"><img className="icon" src={infoSvg} alt="" />Info</button>
   </OverlayTrigger>
 )
 

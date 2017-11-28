@@ -158,6 +158,11 @@ img {
   background-color: #333;
 }
 
+.video-info__right {
+  display: flex;
+  justify-content: flex-end;
+}
+
 .app-settings .dropdown-menu {
   padding: 1rem 0;
 }
