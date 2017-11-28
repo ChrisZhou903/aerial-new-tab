@@ -4,27 +4,27 @@ import VideoPlayer from './components/VideoPlayer'
 import VideoLocation from './components/VideoLocation'
 import entries from './constants/entries.json'
 
-const sortedEntries = entries.sort((a, b) => {
-  const nameA = a.accessibilityLabel.toLowerCase()
-  const nameB = b.accessibilityLabel.toLowerCase()
+const videosObj = entries.reduce((obj, v) => ({
+  ...obj,
+  [v.id]: {
+    ...v,
+  },
+}), {})
 
-  if (nameA < nameB) {
-    return -1
-  }
+const videosIds = entries.map(v => v.id)
 
-  if (nameA > nameB) {
-    return 1
-  }
-
-  return 0
-})
-
-const randomIndex = Math.floor(Math.random() * sortedEntries.length)
+const randomId = entries[Math.floor(Math.random() * videosIds.length)].id
 
 class App extends PureComponent {
   state = {
-    videos: sortedEntries || [],
-    current: randomIndex || 0,
+    videos: videosObj,
+    current: randomId,
+  }
+
+  handleLocationSelect = id => {
+    this.setState({
+      current: id,
+    })
   }
 
   render() {
@@ -36,7 +36,7 @@ class App extends PureComponent {
         <div className="video-container">
           <VideoPlayer video={video} />
           <div className="video-info">
-            <VideoLocation videos={videos} video={video} />
+            <VideoLocation videos={videos} video={video} onSelect={this.handleLocationSelect} />
           </div>
         </div>
       </div>

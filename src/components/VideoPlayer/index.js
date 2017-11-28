@@ -10,7 +10,23 @@ class VideoPlayer extends PureComponent {
   }
 
   state = {
+    canPlay: false,
     isPlaying: false,
+  }
+
+  componentWillReceiveProps(nextProps) {
+    if (nextProps.video.id !== this.props.video.id) {
+      this.setPlaying(false)
+      this.setState({
+        canPlay: false,
+      })
+    }
+  }
+
+  setPlaying = isPlaying => {
+    this.setState({
+      isPlaying,
+    })
   }
 
   handlePlayClick = () => {
@@ -21,48 +37,57 @@ class VideoPlayer extends PureComponent {
     this.video.pause()
   }
 
-  handlePlaying = () => {
+  handleCanPlay = () => {
     this.setState({
-      isPlaying: true,
+      canPlay: true,
     })
   }
 
+  handlePlay = () => {
+    this.setPlaying(true)
+  }
+
   handlePause = () => {
-    this.setState({
-      isPlaying: false,
-    })
+    this.setPlaying(false)
+  }
+
+  handleError = () => {
+    this.setPlaying(false)
   }
 
   render() {
     const { video } = this.props
-    const { isPlaying } = this.state
+    const { canPlay, isPlaying } = this.state
+    const controlBtn = isPlaying ?
+      (
+        <button
+          className="video-btn pause-btn"
+          onClick={this.handlePauseClick}
+        >
+          <img src={pauseSvg} alt="" />
+        </button>
+      ) :
+      (
+        <button
+          className="video-btn play-btn"
+          onClick={this.handlePlayClick}
+        >
+          <img src={playSvg} alt="" />
+        </button>
+      )
 
     return (
       <div>
-        <video
+        <video // eslint-disable-line
           loop
-          preload="false"
-          onPlaying={this.handlePlaying}
+          onCanPlay={this.handleCanPlay}
+          onPlay={this.handlePlay}
           onPause={this.handlePause}
+          onError={this.handleError}
           ref={v => { this.video = v }}
-        >
-          <track kind="captions" />
-          <source src={video.url} type="video/mp4" />Your browser does not support the video tag. I suggest you upgrade your browser.
-        </video>
-        {isPlaying ?
-          <button
-            className="video-btn pause-btn"
-            onClick={this.handlePauseClick}
-          >
-            <img src={pauseSvg} alt="" />
-          </button> :
-          <button
-            className="video-btn play-btn"
-            onClick={this.handlePlayClick}
-          >
-            <img src={playSvg} alt="" />
-          </button>
-        }
+          src={video.url}
+        />
+        {canPlay && controlBtn}
       </div>
     )
   }

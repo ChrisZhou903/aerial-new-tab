@@ -1,49 +1,64 @@
 import React, { PureComponent } from 'react'
-import { array, object } from 'prop-types'
+import { object, func } from 'prop-types'
+import { DropdownButton, MenuItem } from 'react-bootstrap'
 
 import locationSvg from './location.svg'
 
 class VideoLocation extends PureComponent {
   static propTypes = {
-    videos: array.isRequired,
+    videos: object.isRequired,
     video: object.isRequired,
-  }
-
-  state = {
-    listVisibility: false,
-  }
-
-  handleLocationFocus = () => {
-    this.setState({
-      listVisibility: true,
-    })
-  }
-
-  handleLocationBlur = () => {
-    this.setState({
-      listVisibility: false,
-    })
+    onSelect: func.isRequired,
   }
 
   render() {
-    const { videos, video } = this.props
-    const { listVisibility } = this.state
+    const { videos, video, onSelect } = this.props
+    const videosIds = Object.keys(videos)
+    const types = videosIds.map(id => videos[id].accessibilityLabel).sort()
+    const uniqTypes = []
+
+    types.forEach(type => {
+      if (uniqTypes.indexOf(type) === -1) {
+        uniqTypes.push(type)
+      }
+    })
+
+    const buttonDom = (
+      <span>
+        <img className="icon" src={locationSvg} alt="" />
+        {video.accessibilityLabel} - <span className="video-time" > {video.timeOfDay}</span >
+      </span>
+    )
+
+    const menuItems = []
+
+    uniqTypes.forEach(type => {
+      const videosIdsByType = videosIds.filter(id => videos[id].accessibilityLabel === type)
+
+      menuItems.push(<MenuItem key={type} header>{type}</MenuItem>)
+      menuItems.push(videosIdsByType.map((id, index) => (
+        <MenuItem
+          key={id}
+          eventKey={id}
+          active={video.id === id}
+          onSelect={onSelect}
+        >
+          {`${index + 1} -- ${videos[id].timeOfDay}`}
+        </MenuItem>
+      )))
+      menuItems.push(<MenuItem key={`${type}-divider`} divider />)
+    })
+
     return (
       <div className="video-location">
-        {listVisibility &&
-          <ul className="video-list">
-            {videos.map(v => (
-              <li key={v.id}>{v.accessibilityLabel} - <span className="video-time">{v.timeOfDay}</span></li>
-            ))}
-          </ul>}
-        <button
-          className="video-location__cur"
-          onFocus={this.handleLocationFocus}
-          onBlur={this.handleLocationBlur}
+        <DropdownButton
+          dropup
+          title={buttonDom}
+          id="video-location__btn"
+          className="video-location__btn"
         >
-          <img className="icon" src={locationSvg} alt="" />
-          {video.accessibilityLabel} - <span className="video-time">{video.timeOfDay}</span>
-        </button>
+          {menuItems}
+        </DropdownButton>
       </div>
     )
   }
