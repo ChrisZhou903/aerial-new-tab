@@ -89,7 +89,7 @@ img {
   width: 48px;
   bottom: 10%;
   left: 50%;
-  transform: translate(-50%, 0);
+  transform: translate(-50%, 8px);
   z-index: 9999;
 }
 
