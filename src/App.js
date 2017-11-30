@@ -4,25 +4,52 @@ import VideoPlayer from './components/VideoPlayer'
 import VideoLocation from './components/VideoLocation'
 import Settings from './components/Settings'
 import Info from './components/Info'
-import entries from './constants/entries.json'
+import DEFAULT_ENTRIES from './constants/entries.json'
 
-const videosObj = entries.reduce((obj, v) => ({
-  ...obj,
-  [v.id]: {
-    ...v,
-  },
-}), {})
-
-const videosIds = entries.map(v => v.id)
-
-const randomId = entries[Math.floor(Math.random() * videosIds.length)].id
-const videoId = window.localStorage.getItem('videoId') || randomId
-
+const flatten = (array = []) => array.map(set => set.assets)
+  .reduce((arr, item) => [...arr, ...item], [])
 
 class App extends PureComponent {
   state = {
-    videos: videosObj,
-    current: videoId,
+    videos: {},
+    current: '',
+  }
+
+  componentDidMount() {
+    fetch('http://a1.phobos.apple.com/us/r1000/000/Features/atv/AutumnResources/videos/entries.json')
+      .then(response => response.json()
+        .then(json => {
+          if (!response.ok) {
+            return Promise.reject(json)
+          }
+
+          return json
+        }),
+      ).then(json => {
+        this.updateStateByEntries(json)
+      }, () => {
+        this.updateStateByEntries(DEFAULT_ENTRIES)
+      })
+  }
+
+  updateStateByEntries = data => {
+    const entries = flatten(data)
+
+    if (entries.length > 0) {
+      const randomId = entries[Math.floor(Math.random() * entries.length)].id
+      const current = window.localStorage.getItem('videoId') || randomId
+      const videos = entries.reduce((obj, v) => ({
+        ...obj,
+        [v.id]: {
+          ...v,
+        },
+      }), {})
+
+      this.setState({
+        videos,
+        current,
+      })
+    }
   }
 
   handleLocationSelect = id => {
@@ -38,9 +65,10 @@ class App extends PureComponent {
     return (
       <div className="app-hero">
         <div className="video-container">
-          <VideoPlayer video={video} />
+          {video && <VideoPlayer video={video} />}
           <div className="video-info">
-            <VideoLocation videos={videos} video={video} onSelect={this.handleLocationSelect} />
+            {video &&
+              <VideoLocation videos={videos} video={video} onSelect={this.handleLocationSelect} />}
             <div className="video-info__right">
               <Settings />
               <Info />
