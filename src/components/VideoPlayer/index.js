@@ -3,6 +3,7 @@ import { object } from 'prop-types'
 
 import playSvg from './play.svg'
 import pauseSvg from './pause.svg'
+import loadingSvg from './loading.svg'
 
 class VideoPlayer extends PureComponent {
   static propTypes = {
@@ -10,7 +11,7 @@ class VideoPlayer extends PureComponent {
   }
 
   state = {
-    canPlay: false,
+    isLoading: false,
     isPlaying: false,
   }
 
@@ -18,7 +19,7 @@ class VideoPlayer extends PureComponent {
     if (nextProps.video.id !== this.props.video.id) {
       this.setPlaying(false)
       this.setState({
-        canPlay: false,
+        isLoading: true,
       })
     }
   }
@@ -37,11 +38,17 @@ class VideoPlayer extends PureComponent {
     this.video.pause()
   }
 
+  handleWaiting = () => {
+    this.setState({
+      isLoading: true,
+    })
+  }
+
   handleCanPlay = () => {
     const { video } = this.props
 
     this.setState({
-      canPlay: true,
+      isLoading: false,
     })
     window.localStorage.setItem('videoId', video.id)
   }
@@ -60,29 +67,29 @@ class VideoPlayer extends PureComponent {
 
   render() {
     const { video } = this.props
-    const { canPlay, isPlaying } = this.state
-    const controlBtn = isPlaying ?
-      (
-        <button
-          className="video-btn pause-btn"
-          onClick={this.handlePauseClick}
-        >
-          <img src={pauseSvg} alt="" />
-        </button>
-      ) :
-      (
-        <button
-          className="video-btn play-btn"
-          onClick={this.handlePlayClick}
-        >
-          <img src={playSvg} alt="" />
-        </button>
-      )
+    const { isPlaying, isLoading } = this.state
+    const playBtn = !isLoading && (
+      <button
+        className="video-btn play-btn"
+        onClick={this.handlePlayClick}
+      >
+        <img src={playSvg} alt="" />
+      </button>
+    )
+    const pauseBtn = (
+      <button
+        className="video-btn pause-btn"
+        onClick={this.handlePauseClick}
+      >
+        <img src={pauseSvg} alt="" />
+      </button>
+    )
 
     return (
       <div>
         <video // eslint-disable-line
           loop
+          onWaiting={this.handleWaiting}
           onCanPlay={this.handleCanPlay}
           onPlay={this.handlePlay}
           onPause={this.handlePause}
@@ -90,7 +97,12 @@ class VideoPlayer extends PureComponent {
           ref={v => { this.video = v }}
           src={video.url}
         />
-        {canPlay && controlBtn}
+        {isPlaying ? pauseBtn : playBtn}
+        {isLoading &&
+          <div className="video-loading">
+            <img src={loadingSvg} alt="" />
+          </div>
+        }
       </div>
     )
   }

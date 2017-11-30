@@ -25,6 +25,7 @@ img {
   display: flex;
   flex-direction: column;
   flex: auto;
+  background-color: #000;
 }
 
 .no-video .video-container video,
@@ -47,21 +48,35 @@ img {
   position: absolute;
 }
 
-.video-container .filter {
-  z-index: 100;
-  position: absolute;
-  background: rgba(0, 0, 0, 0.4);
-  width: 100%;
-}
-
 .video-container video {
+  width: 100%;
+  min-height: 100%;
   position: absolute;
   top: 50%;
   left: 50%;
-  width: 100%;
-  min-height: 100%;
   transform: translate(-50%, -50%);
-  background-color: #000;
+}
+
+.video-loading {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
+
+.video-loading > img {
+  animation: loadingCircle 1s infinite linear;
+}
+
+@keyframes loadingCircle {
+  0% {
+    transform-origin: 50% 50%;
+    transform: rotate(0deg)
+  }
+  to {
+    transform-origin: 50% 50%;
+    transform: rotate(1turn)
+  }
 }
 
 .video-btn {
@@ -73,6 +88,7 @@ img {
   outline: none;
   opacity: .6;
   transition: opacity .25s ease-in-out;
+  z-index: 9999;
 }
 
 .video-btn:hover {
@@ -87,16 +103,15 @@ img {
 
 .pause-btn {
   width: 48px;
-  bottom: 10%;
+  bottom: 5%;
   left: 50%;
   transform: translate(-50%, 8px);
-  z-index: 9999;
 }
 
 .video-info {
   width: 100%;
   position: absolute;
-  bottom: 10%;
+  bottom: 5%;
   left: 0;
   color: rgba(255, 255, 255, .8);
   padding: 0 5%;
